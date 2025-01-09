@@ -46,11 +46,15 @@ namespace _09_01_25_homework
                 db.Database.EnsureCreated();
                 // или db.Database.Migrate(); Ч если используем миграции
             }
+ 
+            // ¬ключаем поддержку статических файлов
+            app.UseStaticFiles();
 
-            // Configure the HTTP request pipeline.
-
-            app.UseAuthorization();
-
+            app.MapGet("/", async context =>
+            {
+                context.Response.ContentType = "text/html";
+                await context.Response.SendFileAsync("wwwroot/index.html");
+            });
 
             app.MapControllers();
 
